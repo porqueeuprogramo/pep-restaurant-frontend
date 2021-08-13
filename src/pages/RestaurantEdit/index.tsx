@@ -1,15 +1,16 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
-import useRestaurants from "../../hooks/useRestaurants";
 import styles from "./styles.module.scss";
+import useRestaurants from "../../hooks/useRestaurants";
 
 function RestaurantEdit() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState("");
 
-  const { id } = useParams();
+  const { id } = useParams<{id: string}>();
   const history = useHistory();
   const { getRestaurant, updateRestaurant } = useRestaurants();
 

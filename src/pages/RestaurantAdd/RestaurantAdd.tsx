@@ -11,7 +11,7 @@ function RestaurantAdd() {
   const [capacity, setCapacity] = useState("");
   const { createRestaurant } = useRestaurants();
 
-  async function handleSubmit(event) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     await createRestaurant({

@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./styles.module.scss";
 import { MdRestaurant } from "react-icons/md";
 import { Link } from "react-router-dom";

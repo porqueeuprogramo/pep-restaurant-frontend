@@ -1,24 +1,26 @@
+import React from "react";
 import { createContext, useEffect, useState, useContext } from "react";
 import { toast } from "react-toastify";
 import * as api from "../services/api";
+import { IRestaurantsContext, IRestaurantsProvider } from "../types";
 
-export const RestaurantsContext = createContext();
+export const RestaurantsContext = createContext<IRestaurantsContext | {}>({});
 
-export function RestaurantsProvider({ children }) {
-  const [restaurants, setRestaurants] = useState([]);
+export function RestaurantsProvider({ children }: IRestaurantsContext) {
+  const [restaurants, setRestaurants] = useState<any[]>([]);
 
   useEffect(() => {
     api.getRestaurants().then(setRestaurants);
   }, []);
 
-  async function getRestaurant(restaurantId) {
+  async function getRestaurant(restaurantId: string) {
     const restaurant = restaurants.find(
       (item) => item.id === Number(restaurantId)
     );
     return restaurant;
   }
 
-  async function createRestaurant(data) {
+  async function createRestaurant(data: any) {
     try {
       const newRestaurant = await api.createRestaurant(data);
 
@@ -48,7 +50,7 @@ export function RestaurantsProvider({ children }) {
     }
   }
 
-  async function deleteRestaurant(restaurantId) {
+  async function deleteRestaurant(restaurantId: string) {
     try {
       await api.deleteRestaurant(restaurantId);
 
@@ -73,12 +75,14 @@ export function RestaurantsProvider({ children }) {
         updateRestaurant,
       }}
     >
-      {children}
+      <React.Fragment>
+        {children}
+      </React.Fragment>
     </RestaurantsContext.Provider>
   );
 }
 
 export default function useRestaurants() {
-  const context = useContext(RestaurantsContext);
+  const context = useContext(RestaurantsContext) as IRestaurantsProvider;
   return context;
 }

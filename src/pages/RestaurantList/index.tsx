@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FiEdit, FiTrash } from "react-icons/fi";
 import useRestaurants from "../../hooks/useRestaurants";
@@ -7,11 +8,11 @@ function RestaurantList() {
   const history = useHistory();
   const { restaurants, deleteRestaurant } = useRestaurants();
 
-  function handleEditRestaurant(id) {
+  function handleEditRestaurant(id: string) {
     history.push(`/edit-restaurant/${id}`);
   }
 
-  function handleDeleteRestaurant(id) {
+  function handleDeleteRestaurant(id: string) {
     deleteRestaurant(id);
   }
 
