@@ -5,22 +5,33 @@
 
   display: flex;
   flex-direction: column;
-}
-
-.addRestaurant {
-  border-radius: 2px;
-  padding: 8px 12px;
-  background-color: transparent;
-  color: #f8f9fa;
-  text-decoration: none;
-  align-self: flex-end;
-  margin-bottom: 12px;
-  transition: background-color 0.2s;
-
-  background-color: #28a745;
-
-  &:hover {
-    background-color: #218838;
+  .optionsContainer {
+    display: flex;
+    justify-content: space-between;
+    .searchRestaurants {
+      display: flex;
+      input {
+        padding: 0 8px;
+      }
+    }
+    .addRestaurantContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .addRestaurant {
+        border-radius: 2px;
+        padding: 8px 12px;
+        background-color: transparent;
+        color: #f8f9fa;
+        text-decoration: none;
+        align-self: flex-end;
+        transition: background-color 0.2s;
+        background-color: #28a745;
+        &:hover {
+          background-color: #218838;
+        }
+      }
+    }
   }
 }
 

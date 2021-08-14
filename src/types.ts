@@ -5,6 +5,7 @@ export interface IRestaurantsProvider {
     updateRestaurant: (restaurantId: string, data: Omit<IRestaurant, "id">) => void,
     duplicateRestaurant: (restaurantId: string, data: IRestaurant) => void,
     deleteRestaurant: (restaurantId: string) => void,
+    filterRestaurant: (searchExpression: string) => IRestaurant[] | [],
 }
 
 export interface IRestaurantsContext {

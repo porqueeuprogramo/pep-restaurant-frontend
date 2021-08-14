@@ -2,12 +2,18 @@ import { Link, useHistory } from "react-router-dom";
 import { FiEdit, FiTrash, FiCopy } from "react-icons/fi";
 import { useRestaurants } from "hooks/useRestaurants";
 import styles from "./styles.module.scss";
-import {v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
+import { useEffect, useState } from "react";
+import { IRestaurant } from "types";
 
 export function RestaurantList() {
   const history = useHistory();
-  const { restaurants, deleteRestaurant, duplicateRestaurant } = useRestaurants();
-  console.log('LOG ~ file: List.tsx ~ line 10 ~ restaurants', restaurants);
+  const { restaurants, deleteRestaurant, duplicateRestaurant, filterRestaurant } = useRestaurants();
+  const [currentRestaurants, setCurrentRestaurants] = useState<IRestaurant[] | []>(restaurants)
+
+  useEffect(() => {
+    setCurrentRestaurants(restaurants);
+  }, [restaurants])
 
   function handleEditRestaurant(id: string) {
     history.push(`/edit-restaurant/${id}`);
@@ -15,6 +21,11 @@ export function RestaurantList() {
 
   function handleDeleteRestaurant(id: string) {
     deleteRestaurant(id);
+  }
+
+  function searchRestaurant(e: React.ChangeEvent<HTMLInputElement>) {
+    const value = e.target.value;
+    value ? setCurrentRestaurants(filterRestaurant(value)) : setCurrentRestaurants(restaurants)
   }
 
   if (restaurants.length === 0) {
@@ -30,9 +41,16 @@ export function RestaurantList() {
 
   return (
     <section className={styles.container}>
-      <Link to="/add-restaurant" className={styles.addRestaurant}>
-        Add Restaurant
-      </Link>
+      <div className={styles.optionsContainer}>
+        <div className={styles.searchRestaurants}>
+          <input onChange={searchRestaurant} placeholder="Filter restaurants"/>
+        </div>
+        <div className={styles.addRestaurantContainer}>
+          <Link to="/add-restaurant" className={styles.addRestaurant}>
+            Add Restaurant
+          </Link>
+        </div>
+      </div>
       <table className={styles.restaurants}>
         <thead>
           <tr>
@@ -43,7 +61,7 @@ export function RestaurantList() {
           </tr>
         </thead>
         <tbody>
-          {restaurants.map((restaurant) => (
+          {currentRestaurants.map((restaurant) => (
             <tr key={restaurant.id}>
               <td>{restaurant.name}</td>
               <td>{restaurant.location}</td>

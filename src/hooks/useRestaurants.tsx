@@ -60,6 +60,11 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
     toast.success("The restaurant was deleted");
   }
 
+  function filterRestaurant(searchExpression: string): IRestaurant[] | [] {
+    const regexp = new RegExp(searchExpression, 'i');
+    return restaurants.filter(restaurant => regexp.test(restaurant.name) || regexp.test(restaurant.location));
+  }
+
   return (
     <RestaurantsContext.Provider
       value={{
@@ -68,7 +73,8 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
         createRestaurant,
         deleteRestaurant,
         updateRestaurant,
-        duplicateRestaurant
+        duplicateRestaurant,
+        filterRestaurant
       }}
     >
       <React.Fragment>
