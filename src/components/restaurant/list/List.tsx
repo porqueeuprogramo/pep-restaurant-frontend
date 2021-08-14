@@ -1,11 +1,12 @@
 import { Link, useHistory } from "react-router-dom";
-import { FiEdit, FiTrash } from "react-icons/fi";
+import { FiEdit, FiTrash, FiCopy } from "react-icons/fi";
 import { useRestaurants } from "hooks/useRestaurants";
 import styles from "./styles.module.scss";
+import {v4 as uuid} from 'uuid';
 
 export function RestaurantList() {
   const history = useHistory();
-  const { restaurants, deleteRestaurant } = useRestaurants();
+  const { restaurants, deleteRestaurant, duplicateRestaurant } = useRestaurants();
 
   function handleEditRestaurant(id: string) {
     history.push(`/edit-restaurant/${id}`);
@@ -58,6 +59,12 @@ export function RestaurantList() {
                   onClick={() => handleDeleteRestaurant(restaurant.id)}
                 >
                   <FiTrash />
+                </button>
+                <button
+                  className={styles.buttonDuplicate}
+                  onClick={() => duplicateRestaurant(restaurant.id, uuid())}
+                >
+                  <FiCopy />
                 </button>
               </td>
             </tr>

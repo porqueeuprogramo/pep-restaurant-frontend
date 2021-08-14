@@ -3,6 +3,7 @@ export interface IRestaurantsProvider {
     getRestaurant: (restaurantId: string) => any,
     createRestaurant: (data: IRestaurant) => any,
     updateRestaurant: (restaurantId: string, data: Omit<IRestaurant, "id">) => any,
+    duplicateRestaurant: (restaurantId: string, data: IRestaurant) => any,
     deleteRestaurant: (restaurantId: string) => any,
 }
 

@@ -27,42 +27,37 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
   },
   ]);
 
-
-  async function getRestaurant(restaurantId: string) {
+  function getRestaurant(restaurantId: string) {
     const restaurant = restaurants.find(
       (item) => item.id === restaurantId
     );
     return restaurant;
   }
 
-  async function createRestaurant(data: IRestaurant) {
-    try {
-      setRestaurants((currentRestaurants) => [...currentRestaurants, data]);
-      toast.success("The restaurant was created");
-    } catch {
-      toast.error("Error creating the restaurant");
-    }
+  function createRestaurant(data: IRestaurant) {
+    setRestaurants((currentRestaurants) => [...currentRestaurants, data]);
+    toast.success("The restaurant was created");
   }
 
-  async function updateRestaurant(restaurantId, data: IRestaurant) {
-    try {
-      const newRestaurantList = [...restaurants];
-      const selectedRestaurant = newRestaurantList.findIndex(res => res.id === restaurantId);
-      newRestaurantList[selectedRestaurant] = data;
-      setRestaurants(newRestaurantList);
-      toast.success("The restaurant was updated");
-    } catch {
-      toast.error("Error updating the restaurant");
-    }
+  function updateRestaurant(restaurantId, data: IRestaurant) {
+    const newRestaurantList = [...restaurants];
+    const selectedRestaurant = newRestaurantList.findIndex(res => res.id === restaurantId);
+    newRestaurantList[selectedRestaurant] = data;
+    setRestaurants(newRestaurantList);
+    toast.success("The restaurant was duplicated");
   }
 
-  async function deleteRestaurant(restaurantId: string) {
-    try {
-      setRestaurants((currentRestaurants) => currentRestaurants.filter(res => res.id !== restaurantId));
-      toast.success("The restaurant was deleted");
-    } catch {
-      toast.error("Error deleting restaurant");
-    }
+  function duplicateRestaurant(restaurantId, newId) {
+    const newRestaurantList = [...restaurants];
+    const selectedRestaurantIndex = newRestaurantList.findIndex(res => res.id === restaurantId);
+    newRestaurantList.splice(selectedRestaurantIndex, 0, {...newRestaurantList[selectedRestaurantIndex], id: newId});
+    setRestaurants(newRestaurantList);
+    toast.success("The restaurant was updated");
+  }
+
+  function deleteRestaurant(restaurantId: string) {
+    setRestaurants((currentRestaurants) => currentRestaurants.filter(res => res.id !== restaurantId));
+    toast.success("The restaurant was deleted");
   }
 
   return (
@@ -73,6 +68,7 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
         createRestaurant,
         deleteRestaurant,
         updateRestaurant,
+        duplicateRestaurant
       }}
     >
       <React.Fragment>

@@ -66,10 +66,10 @@
     }
 
     &.buttonEdit {
-      background-color: #17a2b8;
+      background-color: #17b855;
       transition: 0.2s;
       &:hover {
-        background-color: #117a8b;
+        background-color: #118b2b;
       }
     }
 
@@ -80,6 +80,15 @@
 
       &:hover {
         background-color: #bd2130;
+      }
+    }
+    &.buttonDuplicate {
+      margin-left: 8px;
+      background-color: #17a2b8;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: #117a8b;
       }
     }
   }
