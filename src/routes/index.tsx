@@ -1,8 +1,7 @@
-import React from "react";
 import { Switch, Route } from "react-router-dom";
-import RestaurantEdit from "../pages/RestaurantEdit";
-import RestaurantAdd from "../pages/RestaurantAdd";
-import RestaurantList from "../pages/RestaurantList";
+import { RestaurantAdd } from "../components/restaurant/add";
+import { RestaurantEdit } from "../components/restaurant/edit";
+import { RestaurantList } from "../components/restaurant/list";
 
 function Routes() {
   return (

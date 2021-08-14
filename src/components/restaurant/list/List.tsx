@@ -1,10 +1,9 @@
-import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FiEdit, FiTrash } from "react-icons/fi";
-import useRestaurants from "../../hooks/useRestaurants";
+import { useRestaurants } from "hooks/useRestaurants";
 import styles from "./styles.module.scss";
 
-function RestaurantList() {
+export function RestaurantList() {
   const history = useHistory();
   const { restaurants, deleteRestaurant } = useRestaurants();
 
@@ -68,5 +67,3 @@ function RestaurantList() {
     </section>
   );
 }
-
-export default RestaurantList;

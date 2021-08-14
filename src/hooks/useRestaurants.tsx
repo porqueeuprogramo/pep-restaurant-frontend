@@ -1,49 +1,55 @@
 import React from "react";
-import { createContext, useEffect, useState, useContext } from "react";
+import { createContext, useState, useContext } from "react";
 import { toast } from "react-toastify";
-import * as api from "../services/api";
-import { IRestaurantsContext, IRestaurantsProvider } from "../types";
+import { IRestaurant, IRestaurantsContext, IRestaurantsProvider } from "types";
+import { v4 as uuid } from 'uuid';
 
 export const RestaurantsContext = createContext<IRestaurantsContext | {}>({});
 
 export function RestaurantsProvider({ children }: IRestaurantsContext) {
-  const [restaurants, setRestaurants] = useState<any[]>([]);
+  const [restaurants, setRestaurants] = useState<IRestaurant[]>([{
+    id: uuid(),
+    name: "Restaurant 1",
+    location: "Location 1",
+    capacity: 10,
+  },
+  {
+    id: uuid(),
+    name: "Restaurant 2",
+    location: "Location 2",
+    capacity: 20,
+  },
+  {
+    id: uuid(),
+    name: "Restaurant 3",
+    location: "Location 3",
+    capacity: 30,
+  },
+  ]);
 
-  useEffect(() => {
-    api.getRestaurants().then(setRestaurants);
-  }, []);
 
   async function getRestaurant(restaurantId: string) {
     const restaurant = restaurants.find(
-      (item) => item.id === Number(restaurantId)
+      (item) => item.id === restaurantId
     );
     return restaurant;
   }
 
-  async function createRestaurant(data: any) {
+  async function createRestaurant(data: IRestaurant) {
     try {
-      const newRestaurant = await api.createRestaurant(data);
-
-      setRestaurants([...restaurants, newRestaurant]);
+      setRestaurants((currentRestaurants) => [...currentRestaurants, data]);
       toast.success("The restaurant was created");
     } catch {
       toast.error("Error creating the restaurant");
     }
   }
 
-  async function updateRestaurant(restaurantId, data) {
+  async function updateRestaurant(restaurantId, data: IRestaurant) {
     try {
-      const updatedRestaurant = await api.updateRestaurant(restaurantId, data);
-
-      const updatedRestaurants = restaurants.map((restaurant) => {
-        if (restaurant.id === Number(restaurantId)) {
-          return updatedRestaurant;
-        } else {
-          return restaurant;
-        }
-      });
-
-      setRestaurants(updatedRestaurants);
+      const newRestaurantList = [...restaurants];
+      const selectedRestaurant = newRestaurantList.findIndex(res => res.id === restaurantId);
+      newRestaurantList[selectedRestaurant] = data;
+      setRestaurants(newRestaurantList);
       toast.success("The restaurant was updated");
     } catch {
       toast.error("Error updating the restaurant");
@@ -52,13 +58,7 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
 
   async function deleteRestaurant(restaurantId: string) {
     try {
-      await api.deleteRestaurant(restaurantId);
-
-      const updatedState = restaurants.filter(
-        (restaurant) => restaurant.id !== Number(restaurantId)
-      );
-
-      setRestaurants(updatedState);
+      setRestaurants((currentRestaurants) => currentRestaurants.filter(res => res.id !== restaurantId));
       toast.success("The restaurant was deleted");
     } catch {
       toast.error("Error deleting restaurant");
@@ -82,7 +82,7 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
   );
 }
 
-export default function useRestaurants() {
+export function useRestaurants() {
   const context = useContext(RestaurantsContext) as IRestaurantsProvider;
   return context;
 }

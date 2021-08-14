@@ -1,20 +1,31 @@
-import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
-import useRestaurants from "../../hooks/useRestaurants";
 import styles from "./styles.module.scss";
+import { useRestaurants } from "hooks/useRestaurants";
 
-function RestaurantAdd() {
-  const history = useHistory();
+export function RestaurantEdit() {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [capacity, setCapacity] = useState("");
-  const { createRestaurant } = useRestaurants();
+  const [capacity, setCapacity] = useState(0);
+
+  const { id } = useParams<{id: string}>();
+  const history = useHistory();
+  const { getRestaurant, updateRestaurant } = useRestaurants();
+
+  useEffect(() => {
+    getRestaurant(id).then((restaurant) => {
+      setName(restaurant.name);
+      setLocation(restaurant.location);
+      setCapacity(restaurant.capacity);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    await createRestaurant({
+    await updateRestaurant(id, {
       name,
       location,
       capacity,
@@ -26,7 +37,7 @@ function RestaurantAdd() {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h1>New Restaurant</h1>
+        <h1>Edit Restaurant</h1>
 
         <div>
           <label htmlFor="name">Name</label>
@@ -37,7 +48,6 @@ function RestaurantAdd() {
             autoComplete="off"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            autoFocus
           />
         </div>
 
@@ -61,7 +71,7 @@ function RestaurantAdd() {
             required
             autoComplete="off"
             value={capacity}
-            onChange={(event) => setCapacity(event.target.value)}
+            onChange={(event) => setCapacity(Number(event.target.value))}
           />
         </div>
 
@@ -72,5 +82,3 @@ function RestaurantAdd() {
     </div>
   );
 }
-
-export default RestaurantAdd;
