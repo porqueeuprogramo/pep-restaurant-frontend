@@ -7,6 +7,7 @@ import {v4 as uuid} from 'uuid';
 export function RestaurantList() {
   const history = useHistory();
   const { restaurants, deleteRestaurant, duplicateRestaurant } = useRestaurants();
+  console.log('LOG ~ file: List.tsx ~ line 10 ~ restaurants', restaurants);
 
   function handleEditRestaurant(id: string) {
     history.push(`/edit-restaurant/${id}`);

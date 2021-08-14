@@ -27,7 +27,7 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
   },
   ]);
 
-  function getRestaurant(restaurantId: string) {
+  function getRestaurant(restaurantId: string): IRestaurant | undefined {
     const restaurant = restaurants.find(
       (item) => item.id === restaurantId
     );
@@ -44,7 +44,7 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
     const selectedRestaurant = newRestaurantList.findIndex(res => res.id === restaurantId);
     newRestaurantList[selectedRestaurant] = data;
     setRestaurants(newRestaurantList);
-    toast.success("The restaurant was duplicated");
+    toast.success("The restaurant was updated");
   }
 
   function duplicateRestaurant(restaurantId, newId) {
@@ -52,7 +52,7 @@ export function RestaurantsProvider({ children }: IRestaurantsContext) {
     const selectedRestaurantIndex = newRestaurantList.findIndex(res => res.id === restaurantId);
     newRestaurantList.splice(selectedRestaurantIndex, 0, {...newRestaurantList[selectedRestaurantIndex], id: newId});
     setRestaurants(newRestaurantList);
-    toast.success("The restaurant was updated");
+    toast.success("The restaurant was duplicated");
   }
 
   function deleteRestaurant(restaurantId: string) {

@@ -9,23 +9,22 @@ export function RestaurantEdit() {
   const [location, setLocation] = useState("");
   const [capacity, setCapacity] = useState(0);
 
-  const { id } = useParams<{id: string}>();
+  const { id } = useParams<{ id: string }>();
   const history = useHistory();
   const { getRestaurant, updateRestaurant } = useRestaurants();
 
   useEffect(() => {
-    getRestaurant(id).then((restaurant) => {
-      setName(restaurant.name);
-      setLocation(restaurant.location);
-      setCapacity(restaurant.capacity);
-    });
+    const currentRestaurant = getRestaurant(id)
+    setName(currentRestaurant.name);
+    setLocation(currentRestaurant.location);
+    setCapacity(currentRestaurant.capacity);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault();
 
-    await updateRestaurant(id, {
+    updateRestaurant(id, {
       name,
       location,
       capacity,

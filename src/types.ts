@@ -1,10 +1,10 @@
 export interface IRestaurantsProvider {
-    restaurants: any[],
+    restaurants: IRestaurant[],
     getRestaurant: (restaurantId: string) => any,
-    createRestaurant: (data: IRestaurant) => any,
-    updateRestaurant: (restaurantId: string, data: Omit<IRestaurant, "id">) => any,
-    duplicateRestaurant: (restaurantId: string, data: IRestaurant) => any,
-    deleteRestaurant: (restaurantId: string) => any,
+    createRestaurant: (data: IRestaurant) => void,
+    updateRestaurant: (restaurantId: string, data: Omit<IRestaurant, "id">) => void,
+    duplicateRestaurant: (restaurantId: string, data: IRestaurant) => void,
+    deleteRestaurant: (restaurantId: string) => void,
 }
 
 export interface IRestaurantsContext {
