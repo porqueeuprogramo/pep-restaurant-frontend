@@ -10,20 +10,12 @@ This is a porqueeuprogramo learn tool (front-end) application.
 
 ### How do I get set up?
 
-- Summary of set up
-- Configuration
-- Dependencies
-- Database configuration
-- How to run tests
-- Deployment instructions
+- npm install
 
-### Contribution guidelines
+- npm start
 
-- Writing tests
-- Code review
-- Other guidelines
+### Run In Docker
 
-### Who do I talk to?
+- docker build .
+- docker-compose up
 
-- Repo owner or admin
-- Other community or team contact
